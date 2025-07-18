@@ -5,8 +5,9 @@ import { I18nManager, StyleProp, StyleSheet, Text, TextProps, View, ViewStyle } 
 import { MathViewProps } from './common';
 //@ts-ignore
 import MathView from './MathView';
+import { TextStyle } from 'react-native';
 
-type ElementOrRenderer<T = {}> = ((props: T) => JSX.Element) | JSX.Element
+type ElementOrRenderer<T = { isMath: boolean }> = ((props: T) => JSX.Element) | JSX.Element
 
 export type Direction = 'ltr' | 'rtl' | 'auto';
 
@@ -24,6 +25,7 @@ export type MathTextItemProps<T extends boolean = boolean> = (T extends true ? O
     Component?: MathView,
     CellRendererComponent?: ElementOrRenderer,
     inline?: boolean
+    textStyle: TextStyle
 }
 
 export type MathTextRowProps = MathTextItemProps & {
@@ -53,11 +55,11 @@ export const InlineMathItem = React.memo(({ value, isMath, CellRendererComponent
         /> :
         <Text
             {...props}
-            style={styles.textMiddle}
+            style={[styles.textMiddle, props.textStyle]}
         >
             {value}
         </Text>;
-    const container = typeof CellRendererComponent === 'function' ? <CellRendererComponent /> : CellRendererComponent || <></>;
+    const container = typeof CellRendererComponent === 'function' ? <CellRendererComponent isMath={isMath} /> : CellRendererComponent || <></>;
     return React.cloneElement(container, {}, el);
 });
 
