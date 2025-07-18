@@ -30,7 +30,10 @@ const MathBaseView = forwardRef((props: MathViewInjectedProps, ref: Ref<any>) =>
     return (
         <RNMathView
             {...passProps}
-            style={[styles.container, props.resizeMode === 'contain' && styles.contain, props.style]}
+            style={[
+                styles.container, props.resizeMode === 'contain' && styles.contain, props.style,
+                size
+            ]}
             ref={ref}
             key={key}
         />
